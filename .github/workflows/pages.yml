@@ -1,31 +1,14 @@
-name: Build and Deploy
+name: Deploy to GitHub Pages
 on:
   push:
     branches: [ master ]
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Install and build
-        run: |
-          # no build step needed for plain static files; ensure index.html is root
-          echo "Build step skipped (static)"
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
-          publish_branch: gh-pages
-  pages:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Enable Pages from gh-pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
